@@ -800,6 +800,48 @@
         let currentUser = null;
         let posts = [];
 
+        // 로컬저장소 관리 함수들
+        function saveToLocalStorage(key, data) {
+            try {
+                localStorage.setItem(key, JSON.stringify(data));
+                console.log(`데이터 저장됨: ${key}`);
+            } catch (error) {
+                console.error('로컬저장소 저장 실패:', error);
+            }
+        }
+
+        function loadFromLocalStorage(key, defaultValue = null) {
+            try {
+                const data = localStorage.getItem(key);
+                return data ? JSON.parse(data) : defaultValue;
+            } catch (error) {
+                console.error('로컬저장소 로드 실패:', error);
+                return defaultValue;
+            }
+        }
+
+        function initializeFromLocalStorage() {
+            // 로그인 상태 복원
+            isLoggedIn = loadFromLocalStorage('isLoggedIn', false);
+            currentUser = loadFromLocalStorage('currentUser', null);
+            
+            // 게시글 데이터 복원
+            posts = loadFromLocalStorage('posts', []);
+            
+            // 실시간 데이터 기록 복원
+            const realtimeHistory = loadFromLocalStorage('realtimeHistory', []);
+            
+            console.log('로컬저장소에서 데이터 복원 완료');
+            console.log('저장된 게시글 수:', posts.length);
+            console.log('실시간 데이터 기록 수:', realtimeHistory.length);
+            
+            // UI 업데이트
+            updateLoginUI();
+            
+            // 저장된 게시글들을 화면에 표시
+            posts.forEach(post => addPostToGrid(post));
+        }
+
         // 로그인 관련 함수
         function openLoginModal() {
             document.getElementById('loginModal').style.display = 'block';
@@ -817,6 +859,12 @@
             if (username === 'peterpeter8585' && password === '1234aiai!!') {
                 isLoggedIn = true;
                 currentUser = username;
+                
+                // 로그인 상태를 로컬저장소에 저장
+                saveToLocalStorage('isLoggedIn', true);
+                saveToLocalStorage('currentUser', username);
+                saveToLocalStorage('loginTime', new Date().toISOString());
+                
                 updateLoginUI();
                 closeLoginModal();
                 alert('관리자로 로그인되었습니다!');
@@ -828,6 +876,12 @@
         function logout() {
             isLoggedIn = false;
             currentUser = null;
+            
+            // 로그아웃 상태를 로컬저장소에 저장
+            saveToLocalStorage('isLoggedIn', false);
+            saveToLocalStorage('currentUser', null);
+            saveToLocalStorage('logoutTime', new Date().toISOString());
+            
             updateLoginUI();
             document.getElementById('writeSection').style.display = 'none';
             alert('로그아웃되었습니다.');
@@ -891,6 +945,10 @@
 
             // 포스트 배열에 추가
             posts.unshift(newPost);
+
+            // 게시글을 로컬저장소에 저장
+            saveToLocalStorage('posts', posts);
+            saveToLocalStorage('lastPostTime', new Date().toISOString());
 
             // 블로그 그리드에 새 카드 추가
             addPostToGrid(newPost);
@@ -1251,6 +1309,31 @@
             const renewableBase = 28.7;
             const renewableCurrent = renewableBase + (Math.random() - 0.3) * 0.5;
             document.getElementById('renewableEnergy').textContent = renewableCurrent.toFixed(1) + '%';
+
+            // 실시간 데이터를 로컬저장소에 저장
+            const realtimeData = {
+                timestamp: new Date().toISOString(),
+                co2: co2Current.toFixed(1),
+                temperature: tempCurrent.toFixed(2),
+                seaLevel: seaCurrent.toFixed(1),
+                arcticIce: iceCurrent.toFixed(1),
+                airQuality: aqiCurrent,
+                aqiStatus: aqiStatus,
+                renewableEnergy: renewableCurrent.toFixed(1)
+            };
+
+            // 기존 실시간 데이터 기록 가져오기
+            let realtimeHistory = loadFromLocalStorage('realtimeHistory', []);
+            
+            // 새 데이터 추가 (최대 1000개 기록 유지)
+            realtimeHistory.unshift(realtimeData);
+            if (realtimeHistory.length > 1000) {
+                realtimeHistory = realtimeHistory.slice(0, 1000);
+            }
+            
+            // 로컬저장소에 저장
+            saveToLocalStorage('realtimeHistory', realtimeHistory);
+            saveToLocalStorage('lastRealtimeUpdate', new Date().toISOString());
         }
 
         // 부드러운 스크롤 효과
@@ -1320,12 +1403,18 @@
 
         // 페이지 로드 시 초기화
         document.addEventListener('DOMContentLoaded', function() {
+            // 로컬저장소에서 데이터 복원
+            initializeFromLocalStorage();
+            
             animateStats();
             updateRealtimeData();
             
             // 실시간 데이터 1초마다 업데이트
             setInterval(updateRealtimeData, 1000);
+            
+            console.log('기후변화 블로그 초기화 완료');
+            console.log('로컬저장소 사용 가능:', typeof(Storage) !== "undefined");
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9880eb1710835141',t:'MTc1OTM3MzcwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98810494423feaa3',t:'MTc1OTM3NDc0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
