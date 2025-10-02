@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기후변화 블로그 - Climate Change Korea</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2c5530;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background: #4CAF50;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .login-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .login-btn, .logout-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover, .logout-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .user-info {
+            color: #2c5530;
+            font-weight: 500;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23228B22" width="1200" height="600"/><circle fill="%23FFD700" cx="200" cy="100" r="60"/><polygon fill="%238B4513" points="0,600 300,400 600,450 900,350 1200,400 1200,600"/><polygon fill="%2332CD32" points="0,400 200,300 400,350 600,280 800,320 1000,250 1200,300 1200,400"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 6rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .cta-button:hover {
+            background: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .blog-image {
+            height: 200px;
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #2c5530;
+        }
+
+        .blog-excerpt {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .read-more {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: #45a049;
+        }
+
+        .stats-section {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+        }
+
+        .realtime-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .realtime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .realtime-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .realtime-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .realtime-label {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .realtime-status {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .write-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .write-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #2c5530;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .form-group textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            background: #f0f0f0;
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px dashed #ccc;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            background: #e8f5e8;
+            border-color: #4CAF50;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .login-modal .modal-content {
+            max-width: 400px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .login-form input {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #4CAF50;
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: #45a049;
+            transform: scale(1.1);
+        }
+
+        .write-btn {
+            background: #FF6B6B;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+
+        .write-btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .main-content {
+                padding: 2rem;
+            }
+            
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .modal-content {
+                margin: 10% auto;
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🌍</span>
+                    <span>기후변화 블로그</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#home">홈</a></li>
+                        <li><a href="#articles">기사</a></li>
+                        <li><a href="#realtime">실시간 정보</a></li>
+                        <li><a href="#data">데이터</a></li>
+                        <li><a href="#solutions">해결책</a></li>
+                        <li><a href="#about">소개</a></li>
+                    </ul>
+                </nav>
+                <div class="login-section">
+                    <div id="userInfo" class="user-info" style="display: none;"></div>
+                    <button id="loginBtn" class="login-btn" onclick="openLoginModal()">로그인</button>
+                    <button id="logoutBtn" class="logout-btn" onclick="logout()" style="display: none;">로그아웃</button>
+                    <button id="writeBtn" class="write-btn" onclick="toggleWriteSection()" style="display: none;">글쓰기</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>지구를 위한 변화</h1>
+            <p>기후변화의 현실을 이해하고, 지속가능한 미래를 위한 실천 방안을 함께 찾아가는 공간입니다.</p>
+            <a href="#articles" class="cta-button">최신 기사 보기</a>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- 글쓰기 섹션 -->
+        <section class="write-section" id="writeSection">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #2c5530; font-size: 2.5rem;">새 글 작성</h2>
+            <form class="write-form" onsubmit="submitPost(event)">
+                <div class="form-group">
+                    <label for="postTitle">제목</label>
+                    <input type="text" id="postTitle" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="postCategory">카테고리</label>
+                    <select id="postCategory" name="category" required>
+                        <option value="">카테고리 선택</option>
+                        <option value="기후변화">기후변화</option>
+                        <option value="환경정책">환경정책</option>
+                        <option value="재생에너지">재생에너지</option>
+                        <option value="생태계">생태계</option>
+                        <option value="기술혁신">기술혁신</option>
+                        <option value="실천방안">실천방안</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="postExcerpt">요약</label>
+                    <textarea id="postExcerpt" name="excerpt" rows="3" placeholder="글의 간단한 요약을 작성해주세요"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="postContent">내용 (HTML 지원)</label>
+                    <textarea id="postContent" name="content" required placeholder="HTML 태그를 사용하여 내용을 작성할 수 있습니다. 예: <a href='https://example.com'>링크</a>, <strong>굵은글씨</strong>, <em>기울임</em> 등"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>파일 첨부 (모든 파일 형식 지원)</label>
+                    <div class="file-upload">
+                        <input type="file" id="postFiles" name="files" multiple accept="*/*">
+                        <div>📎 파일을 선택하거나 여기에 드래그하세요</div>
+                        <div style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">이미지, 문서, 동영상 등 모든 파일 형식 업로드 가능</div>
+                    </div>
+                    <div id="fileList" style="margin-top: 1rem;"></div>
+                </div>
+                
+                <button type="submit" class="submit-btn">글 발행</button>
+            </form>
+        </section>
+
+        <!-- 실시간 환경 정보 섹션 -->
+        <section class="realtime-section" id="realtime">
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">실시간 환경 정보</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">전 세계 환경 데이터를 실시간으로 모니터링</p>
+            
+            <div class="realtime-grid">
+                <div class="realtime-item">
+                    <div class="realtime-value" id="co2Level">421.3 ppm</div>
+                    <div class="realtime-label">대기 중 CO₂ 농도</div>
+                    <div class="realtime-status" id="co2Status">⚠️ 위험 수준</div>
+                </div>
+                <div class="realtime-item">
+                    <div class="realtime-value" id="globalTemp">+1.24°C</div>
+                    <div class="realtime-label">전 지구 평균 기온 상승</div>
+                    <div class="realtime-status" id="tempStatus">📈 지속 상승</div>
+                </div>
+                <div class="realtime-item">
+                    <div class="realtime-value" id="seaLevel">+3.4 mm/년</div>
+                    <div class="realtime-label">해수면 상승률</div>
+                    <div class="realtime-status" id="seaStatus">🌊 가속화</div>
+                </div>
+                <div class="realtime-item">
+                    <div class="realtime-value" id="arcticIce">-13.2%</div>
+                    <div class="realtime-label">북극 해빙 감소율</div>
+                    <div class="realtime-status" id="iceStatus">❄️ 급속 감소</div>
+                </div>
+                <div class="realtime-item">
+                    <div class="realtime-value" id="airQuality">156 AQI</div>
+                    <div class="realtime-label">서울 대기질 지수</div>
+                    <div class="realtime-status" id="aqiStatus">😷 나쁨</div>
+                </div>
+                <div class="realtime-item">
+                    <div class="realtime-value" id="renewableEnergy">28.7%</div>
+                    <div class="realtime-label">재생에너지 비율</div>
+                    <div class="realtime-status" id="renewableStatus">🔋 증가 중</div>
+                </div>
+            </div>
+            <div style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
+                * 데이터는 1초마다 실시간 자동 업데이트됩니다
+            </div>
+        </section>
+
+        <main class="main-content" id="articles">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #2c5530; font-size: 2.5rem;">최신 기후변화 소식</h2>
+            
+            <div class="blog-grid" id="blogGrid">
+                <article class="blog-card" onclick="openArticle('article1')">
+                    <div class="blog-image">🌡️</div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">2024년 전 지구 평균 기온 상승</h3>
+                        <p class="blog-excerpt">올해 전 지구 평균 기온이 산업화 이전 대비 1.5도 상승에 근접하고 있다는 새로운 연구 결과가 발표되었습니다. 이는 파리협정 목표치에 도달하는 심각한 상황을 의미합니다.</p>
+                        <div class="blog-meta">
+                            <span>2024년 12월 15일</span>
+                            <a href="#" class="read-more" onclick="event.stopPropagation(); openArticle('article1')">자세히 보기</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="blog-card" onclick="openArticle('article2')">
+                    <div class="blog-image">🧊</div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">북극 빙하 감소 속도 가속화</h3>
+                        <p class="blog-excerpt">NASA의 최신 위성 데이터에 따르면, 북극 해빙의 감소 속도가 예상보다 빠르게 진행되고 있습니다. 이로 인한 해수면 상승과 생태계 변화가 우려됩니다.</p>
+                        <div class="blog-meta">
+                            <span>2024년 12월 12일</span>
+                            <a href="#" class="read-more" onclick="event.stopPropagation(); openArticle('article2')">자세히 보기</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="blog-card" onclick="openArticle('article3')">
+                    <div class="blog-image">🌱</div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">재생에너지 투자 급증</h3>
+                        <p class="blog-excerpt">전 세계 재생에너지 투자가 전년 대비 30% 증가했습니다. 태양광과 풍력 발전 기술의 발전으로 화석연료 의존도를 줄이는 노력이 가속화되고 있습니다.</p>
+                        <div class="blog-meta">
+                            <span>2024년 12월 10일</span>
+                            <a href="#" class="read-more" onclick="event.stopPropagation(); openArticle('article3')">자세히 보기</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="blog-card" onclick="openArticle('article4')">
+                    <div class="blog-image">🌊</div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">해수면 상승과 연안 도시들</h3>
+                        <p class="blog-excerpt">기후변화로 인한 해수면 상승이 전 세계 연안 도시들에 미치는 영향을 분석한 새로운 보고서가 발표되었습니다. 적응 전략의 필요성이 강조되고 있습니다.</p>
+                        <div class="blog-meta">
+                            <span>2024년 12월 8일</span>
+                            <a href="#" class="read-more" onclick="event.stopPropagation(); openArticle('article4')">자세히 보기</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="blog-card" onclick="openArticle('article5')">
+                    <div class="blog-image">🌳</div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">산림 복원 프로젝트의 성과</h3>
+                        <p class="blog-excerpt">전 세계적으로 진행되고 있는 대규모 산림 복원 프로젝트들이 탄소 흡수와 생물다양성 보전에 긍정적인 효과를 보이고 있다는 연구 결과가 나왔습니다.</p>
+                        <div class="blog-meta">
+                            <span>2024년 12월 5일</span>
+                            <a href="#" class="read-more" onclick="event.stopPropagation(); openArticle('article5')">자세히 보기</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="blog-card" onclick="openArticle('article6')">
+                    <div class="blog-image">⚡</div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">전기차 보급 확산</h3>
+                        <p class="blog-excerpt">전기차 판매량이 전년 대비 50% 증가하며 교통 부문의 탄소 배출 감소에 기여하고 있습니다. 충전 인프라 확충과 배터리 기술 발전이 주요 동력이 되고 있습니다.</p>
+                        <div class="blog-meta">
+                            <span>2024년 12월 3일</span>
+                            <a href="#" class="read-more" onclick="event.stopPropagation(); openArticle('article6')">자세히 보기</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </main>
+
+        <section class="stats-section" id="data">
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">기후변화 주요 지표</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">누적 데이터로 보는 지구 환경 변화</p>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">421ppm</div>
+                    <div class="stat-label">대기 중 CO₂ 농도</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">+1.2°C</div>
+                    <div class="stat-label">산업화 이전 대비 기온 상승</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3.4mm</div>
+                    <div class="stat-label">연간 해수면 상승률</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">13%</div>
+                    <div class="stat-label">북극 해빙 감소율 (10년간)</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 로그인 모달 -->
+    <div id="loginModal" class="modal login-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #2c5530;">로그인</h2>
+            <form class="login-form" onsubmit="login(event)">
+                <input type="text" id="username" placeholder="아이디" required>
+                <input type="password" id="password" placeholder="비밀번호" required>
+                <button type="submit" class="login-btn" style="width: 100%;">로그인</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 기사 상세 모달 -->
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeArticleModal()">&times;</span>
+            <div id="articleContent"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <p>&copy; 2024 기후변화 블로그. 지구를 위한 모든 노력을 응원합니다.</p>
+                </div>
+                <div class="social-links">
+                    <a href="#" title="페이스북">📘</a>
+                    <a href="#" title="트위터">🐦</a>
+                    <a href="#" title="인스타그램">📷</a>
+                    <a href="#" title="유튜브">📺</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 전역 변수
+        let isLoggedIn = false;
+        let currentUser = null;
+        let posts = [];
+
+        // 로그인 관련 함수
+        function openLoginModal() {
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        function login(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'peterpeter8585' && password === '1234aiai!!') {
+                isLoggedIn = true;
+                currentUser = username;
+                updateLoginUI();
+                closeLoginModal();
+                alert('관리자로 로그인되었습니다!');
+            } else {
+                alert('아이디 또는 비밀번호가 올바르지 않습니다.');
+            }
+        }
+
+        function logout() {
+            isLoggedIn = false;
+            currentUser = null;
+            updateLoginUI();
+            document.getElementById('writeSection').style.display = 'none';
+            alert('로그아웃되었습니다.');
+        }
+
+        function updateLoginUI() {
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const writeBtn = document.getElementById('writeBtn');
+            const userInfo = document.getElementById('userInfo');
+
+            if (isLoggedIn) {
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+                writeBtn.style.display = 'inline-block';
+                userInfo.style.display = 'inline-block';
+                userInfo.textContent = `관리자 ${currentUser}님`;
+            } else {
+                loginBtn.style.display = 'inline-block';
+                logoutBtn.style.display = 'none';
+                writeBtn.style.display = 'none';
+                userInfo.style.display = 'none';
+            }
+        }
+
+        // 글쓰기 관련 함수
+        function toggleWriteSection() {
+            const writeSection = document.getElementById('writeSection');
+            if (writeSection.style.display === 'none' || writeSection.style.display === '') {
+                writeSection.style.display = 'block';
+                writeSection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                writeSection.style.display = 'none';
+            }
+        }
+
+        function submitPost(event) {
+            event.preventDefault();
+            
+            const title = document.getElementById('postTitle').value;
+            const category = document.getElementById('postCategory').value;
+            const excerpt = document.getElementById('postExcerpt').value;
+            const content = document.getElementById('postContent').value;
+            const files = document.getElementById('postFiles').files;
+
+            // 새 포스트 객체 생성
+            const newPost = {
+                id: 'post_' + Date.now(),
+                title: title,
+                category: category,
+                excerpt: excerpt,
+                content: content,
+                author: currentUser,
+                date: new Date().toLocaleDateString('ko-KR'),
+                files: Array.from(files).map(file => ({
+                    name: file.name,
+                    size: file.size,
+                    type: file.type
+                }))
+            };
+
+            // 포스트 배열에 추가
+            posts.unshift(newPost);
+
+            // 블로그 그리드에 새 카드 추가
+            addPostToGrid(newPost);
+
+            // 폼 초기화
+            document.querySelector('.write-form').reset();
+            document.getElementById('fileList').innerHTML = '';
+            
+            // 글쓰기 섹션 숨기기
+            document.getElementById('writeSection').style.display = 'none';
+
+            alert('글이 성공적으로 발행되었습니다!');
+        }
+
+        function addPostToGrid(post) {
+            const blogGrid = document.getElementById('blogGrid');
+            const categoryIcons = {
+                '기후변화': '🌡️',
+                '환경정책': '📋',
+                '재생에너지': '🔋',
+                '생태계': '🌿',
+                '기술혁신': '💡',
+                '실천방안': '✅'
+            };
+
+            const postCard = document.createElement('article');
+            postCard.className = 'blog-card';
+            postCard.onclick = () => openArticle(post.id);
+            
+            postCard.innerHTML = `
+                <div class="blog-image">${categoryIcons[post.category] || '📝'}</div>
+                <div class="blog-content">
+                    <h3 class="blog-title">${post.title}</h3>
+                    <p class="blog-excerpt">${post.excerpt}</p>
+                    <div class="blog-meta">
+                        <span>${post.date} | ${post.category}</span>
+                        <a href="#" class="read-more" onclick="event.stopPropagation(); openArticle('${post.id}')">자세히 보기</a>
+                    </div>
+                </div>
+            `;
+
+            blogGrid.insertBefore(postCard, blogGrid.firstChild);
+        }
+
+        // 파일 업로드 관련 함수
+        document.getElementById('postFiles').addEventListener('change', function(e) {
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = '';
+            
+            Array.from(e.target.files).forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.style.cssText = 'padding: 0.5rem; background: #f0f0f0; border-radius: 5px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;';
+                
+                const fileInfo = document.createElement('span');
+                fileInfo.textContent = `${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+                
+                const fileType = document.createElement('span');
+                fileType.textContent = file.type || '알 수 없는 형식';
+                fileType.style.cssText = 'font-size: 0.8rem; color: #666;';
+                
+                fileItem.appendChild(fileInfo);
+                fileItem.appendChild(fileType);
+                fileList.appendChild(fileItem);
+            });
+        });
+
+        // 기사 상세보기 관련 함수
+        function openArticle(articleId) {
+            const articles = {
+                'article1': {
+                    title: '2024년 전 지구 평균 기온 상승',
+                    content: `
+                        <h2>2024년 전 지구 평균 기온 상승</h2>
+                        <p><strong>발행일:</strong> 2024년 12월 15일</p>
+                        <hr>
+                        <p>최신 기상 데이터에 따르면, 2024년은 관측 역사상 가장 더운 해가 될 것으로 예상됩니다. 전 지구 평균 기온이 산업화 이전 대비 1.48도 상승하여 파리협정의 1.5도 목표치에 매우 근접했습니다.</p>
+                        
+                        <h3>주요 발견사항</h3>
+                        <ul>
+                            <li>2024년 평균 기온: 산업화 이전 대비 +1.48°C</li>
+                            <li>파리협정 1.5°C 목표까지 0.02°C 차이</li>
+                            <li>극한 기상 현상 빈도 30% 증가</li>
+                        </ul>
+
+                        <p>이러한 기온 상승은 극한 기상 현상의 빈도와 강도를 증가시키고 있습니다. 올해만 해도 유럽의 기록적인 폭염, 아시아의 극심한 홍수, 그리고 북미의 대규모 산불 등이 발생했습니다.</p>
+
+                        <h3>전문가 의견</h3>
+                        <blockquote style="border-left: 4px solid #4CAF50; padding-left: 1rem; margin: 1rem 0; font-style: italic;">
+                        "현재 추세가 계속될 경우, 2030년 이전에 1.5도 목표치를 넘어설 가능성이 높습니다. 탄소 배출 감축을 위한 더욱 적극적인 조치가 필요합니다." - 기후변화 연구소
+                        </blockquote>
+
+                        <p>관련 링크: <a href="https://www.ipcc.ch" target="_blank" rel="noopener noreferrer">IPCC 기후변화 보고서</a></p>
+                    `
+                },
+                'article2': {
+                    title: '북극 빙하 감소 속도 가속화',
+                    content: `
+                        <h2>북극 빙하 감소 속도 가속화</h2>
+                        <p><strong>발행일:</strong> 2024년 12월 12일</p>
+                        <hr>
+                        <p>NASA의 최신 위성 관측 데이터에 따르면, 북극 해빙의 면적이 지난 10년간 연평균 13%씩 감소하고 있습니다. 이는 이전 예측보다 훨씬 빠른 속도입니다.</p>
+
+                        <h3>관측 결과</h3>
+                        <ul>
+                            <li>연평균 해빙 감소율: 13%</li>
+                            <li>여름철 최소 해빙 면적: 역대 최저 기록 갱신</li>
+                            <li>해빙 두께: 평균 30% 감소</li>
+                        </ul>
+
+                        <p>특히 여름철 해빙 최소 면적이 계속해서 기록을 갱신하고 있으며, 이로 인해 북극곰을 비롯한 북극 생태계가 심각한 위협을 받고 있습니다.</p>
+
+                        <h3>환경 영향</h3>
+                        <p>해빙 감소는 또한 해수면 상승을 가속화시키고, 지구의 알베도 효과를 감소시켜 온난화를 더욱 촉진하는 악순환을 만들고 있습니다.</p>
+
+                        <p><strong>예측:</strong> 현재 추세가 계속될 경우 2050년경에는 여름철 북극 해빙이 거의 사라질 수 있다고 연구진은 경고했습니다.</p>
+
+                        <p>더 자세한 정보: <a href="https://nsidc.org" target="_blank" rel="noopener noreferrer">국립 눈·얼음 데이터 센터</a></p>
+                    `
+                },
+                'article3': {
+                    title: '재생에너지 투자 급증',
+                    content: `
+                        <h2>재생에너지 투자 급증</h2>
+                        <p><strong>발행일:</strong> 2024년 12월 10일</p>
+                        <hr>
+                        <p>국제에너지기구(IEA)의 최신 보고서에 따르면, 2024년 전 세계 재생에너지 투자가 1조 8천억 달러를 기록하며 전년 대비 30% 증가했습니다.</p>
+
+                        <h3>투자 현황</h3>
+                        <ul>
+                            <li>총 투자액: 1조 8천억 달러 (+30%)</li>
+                            <li>태양광 발전: 60% (1조 800억 달러)</li>
+                            <li>풍력 발전: 25% (4,500억 달러)</li>
+                            <li>기타 재생에너지: 15% (2,700억 달러)</li>
+                        </ul>
+
+                        <h3>기술 발전과 비용 절감</h3>
+                        <p>이러한 투자 증가는 재생에너지 기술의 비용 하락과 정부 정책 지원에 힘입은 것으로 분석됩니다:</p>
+                        <ul>
+                            <li>태양광 패널 가격: 지난 10년간 85% 하락</li>
+                            <li>풍력 발전 비용: 70% 감소</li>
+                            <li>배터리 저장 비용: 90% 하락</li>
+                        </ul>
+
+                        <h3>미래 전망</h3>
+                        <p>전문가들은 이러한 추세가 계속될 경우 2030년까지 재생에너지가 전 세계 전력 생산의 50% 이상을 차지할 것으로 전망한다고 밝혔습니다.</p>
+
+                        <p>관련 자료: <a href="https://www.iea.org" target="_blank" rel="noopener noreferrer">국제에너지기구 보고서</a></p>
+                    `
+                },
+                'article4': {
+                    title: '해수면 상승과 연안 도시들',
+                    content: `
+                        <h2>해수면 상승과 연안 도시들</h2>
+                        <p><strong>발행일:</strong> 2024년 12월 8일</p>
+                        <hr>
+                        <p>IPCC의 새로운 보고서에 따르면, 현재 해수면 상승률은 연간 3.4mm로 20세기 평균보다 2배 이상 빠른 속도입니다.</p>
+
+                        <h3>영향 규모</h3>
+                        <ul>
+                            <li>위험 지역: 전 세계 630개 연안 도시</li>
+                            <li>영향 인구: 약 6억 3천만 명</li>
+                            <li>경제적 손실: 연간 14조 달러 예상</li>
+                        </ul>
+
+                        <h3>고위험 지역</h3>
+                        <p>특히 다음 지역들이 심각한 위험에 노출되어 있습니다:</p>
+                        <ul>
+                            <li><strong>방글라데시:</strong> 국토의 17% 침수 위험</li>
+                            <li><strong>몰디브:</strong> 국토 전체가 해수면 아래로</li>
+                            <li><strong>투발루:</strong> 50년 내 거주 불가능</li>
+                            <li><strong>베니스:</strong> 연간 100회 이상 침수</li>
+                            <li><strong>마이애미:</strong> 2050년까지 30cm 상승 예상</li>
+                        </ul>
+
+                        <h3>적응 전략</h3>
+                        <p>보고서는 해수면 상승에 대응하기 위한 종합적인 적응 전략을 제시했습니다:</p>
+                        <ol>
+                            <li>방조제 및 해안 보호 시설 건설</li>
+                            <li>도시 계획 및 건축 기준 변경</li>
+                            <li>조기 경보 시스템 구축</li>
+                            <li>필요시 계획적 이주 프로그램</li>
+                        </ol>
+
+                        <p>더 많은 정보: <a href="https://www.ipcc.ch/srocc/" target="_blank" rel="noopener noreferrer">IPCC 해양·빙권 특별보고서</a></p>
+                    `
+                },
+                'article5': {
+                    title: '산림 복원 프로젝트의 성과',
+                    content: `
+                        <h2>산림 복원 프로젝트의 성과</h2>
+                        <p><strong>발행일:</strong> 2024년 12월 5일</p>
+                        <hr>
+                        <p>유엔환경계획(UNEP)의 최신 보고서에 따르면, 전 세계적으로 진행되고 있는 산림 복원 프로젝트들이 상당한 성과를 거두고 있습니다.</p>
+
+                        <h3>복원 성과</h3>
+                        <ul>
+                            <li>복원된 산림 면적: 1억 2천만 헥타르 (지난 5년간)</li>
+                            <li>연간 CO₂ 흡수량: 24억 톤</li>
+                            <li>복원된 생물종: 15,000여 종</li>
+                            <li>창출된 일자리: 350만 개</li>
+                        </ul>
+
+                        <h3>주요 프로젝트</h3>
+                        <h4>🇧🇷 브라질 아마존 복원 프로젝트</h4>
+                        <ul>
+                            <li>복원 면적: 500만 헥타르</li>
+                            <li>참여 지역사회: 200개</li>
+                            <li>복원된 생물종: 3,000여 종</li>
+                        </ul>
+
+                        <h4>🇨🇳 중국 녹색 장성 프로젝트</h4>
+                        <ul>
+                            <li>조림 면적: 4,000만 헥타르</li>
+                            <li>사막화 방지 효과: 연간 100만 헥타르</li>
+                            <li>대기질 개선: PM2.5 농도 30% 감소</li>
+                        </ul>
+
+                        <h4>🌍 아프리카 녹색 벨트 이니셔티브</h4>
+                        <ul>
+                            <li>참여 국가: 21개국</li>
+                            <li>목표 복원 면적: 1억 헥타르</li>
+                            <li>현재 진행률: 65%</li>
+                        </ul>
+
+                        <h3>다면적 효과</h3>
+                        <p>산림 복원은 다양한 환경적·사회경제적 이익을 제공합니다:</p>
+                        <ul>
+                            <li><strong>환경적 효과:</strong> 탄소 흡수, 생물다양성 보전, 토양 침식 방지, 수자원 보호</li>
+                            <li><strong>사회경제적 효과:</strong> 일자리 창출, 지역 주민 생계 개선, 관광 수입 증대</li>
+                        </ul>
+
+                        <p>참고 자료: <a href="https://www.unep.org/explore-topics/forests" target="_blank" rel="noopener noreferrer">UNEP 산림 프로그램</a></p>
+                    `
+                },
+                'article6': {
+                    title: '전기차 보급 확산',
+                    content: `
+                        <h2>전기차 보급 확산</h2>
+                        <p><strong>발행일:</strong> 2024년 12월 3일</p>
+                        <hr>
+                        <p>국제에너지기구(IEA)의 최신 데이터에 따르면, 2024년 전 세계 전기차 판매량이 1,400만 대를 기록하며 전년 대비 50% 증가했습니다.</p>
+
+                        <h3>지역별 판매 현황</h3>
+                        <ul>
+                            <li><strong>중국:</strong> 840만 대 (60%, +55% 성장)</li>
+                            <li><strong>유럽:</strong> 350만 대 (25%, +30% 성장)</li>
+                            <li><strong>북미:</strong> 175만 대 (12.5%, +25% 성장)</li>
+                            <li><strong>기타 지역:</strong> 35만 대 (2.5%, +40% 성장)</li>
+                        </ul>
+
+                        <h3>기술 발전</h3>
+                        <h4>🔋 배터리 기술 혁신</h4>
+                        <ul>
+                            <li>에너지 밀도: 지난 10년간 3배 향상</li>
+                            <li>충전 시간: 절반으로 단축 (80% 충전 기준 30분)</li>
+                            <li>배터리 수명: 평균 15년으로 연장</li>
+                            <li>비용: 90% 하락 (kWh당 100달러 달성)</li>
+                        </ul>
+
+                        <h4>⚡ 충전 인프라 확충</h3>
+                        <ul>
+                            <li>전 세계 공공 충전소: 200만 개 (+40%)</li>
+                            <li>초고속 충전소: 50만 개 (+80%)</li>
+                            <li>가정용 충전기: 1,500만 개 설치</li>
+                        </ul>
+
+                        <h3>환경 효과</h3>
+                        <p>전기차 보급으로 인한 환경 개선 효과:</p>
+                        <ul>
+                            <li>연간 CO₂ 감축량: 1억 5천만 톤</li>
+                            <li>대기오염물질 감소: NOx 30%, PM2.5 25%</li>
+                            <li>석유 소비 절약: 일일 200만 배럴</li>
+                        </ul>
+
+                        <h3>2030년 전망</h3>
+                        <p>현재 추세가 계속될 경우:</p>
+                        <ul>
+                            <li>전기차 시장 점유율: 30% 이상</li>
+                            <li>누적 전기차 수: 2억 5천만 대</li>
+                            <li>충전소 수: 1,000만 개</li>
+                        </ul>
+
+                        <p>상세 데이터: <a href="https://www.iea.org/reports/global-ev-outlook-2024" target="_blank" rel="noopener noreferrer">IEA 글로벌 전기차 전망 2024</a></p>
+                    `
+                }
+            };
+
+            // 사용자가 작성한 글 확인
+            const userPost = posts.find(post => post.id === articleId);
+            let article;
+
+            if (userPost) {
+                article = {
+                    title: userPost.title,
+                    content: `
+                        <h2>${userPost.title}</h2>
+                        <p><strong>작성자:</strong> ${userPost.author} | <strong>발행일:</strong> ${userPost.date} | <strong>카테고리:</strong> ${userPost.category}</p>
+                        <hr>
+                        ${userPost.content}
+                        ${userPost.files.length > 0 ? `
+                            <h3>첨부 파일</h3>
+                            <ul>
+                                ${userPost.files.map(file => `<li>📎 ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</li>`).join('')}
+                            </ul>
+                        ` : ''}
+                    `
+                };
+            } else {
+                article = articles[articleId];
+            }
+
+            if (article) {
+                document.getElementById('articleContent').innerHTML = article.content;
+                document.getElementById('articleModal').style.display = 'block';
+            }
+        }
+
+        function closeArticleModal() {
+            document.getElementById('articleModal').style.display = 'none';
+        }
+
+        // 실시간 환경 데이터 업데이트
+        function updateRealtimeData() {
+            // CO2 농도 (실제로는 API에서 가져와야 함)
+            const co2Base = 421.3;
+            const co2Current = co2Base + (Math.random() - 0.5) * 0.2;
+            document.getElementById('co2Level').textContent = co2Current.toFixed(1) + ' ppm';
+            
+            // 전 지구 기온
+            const tempBase = 1.24;
+            const tempCurrent = tempBase + (Math.random() - 0.5) * 0.05;
+            document.getElementById('globalTemp').textContent = '+' + tempCurrent.toFixed(2) + '°C';
+            
+            // 해수면 상승률
+            const seaBase = 3.4;
+            const seaCurrent = seaBase + (Math.random() - 0.5) * 0.2;
+            document.getElementById('seaLevel').textContent = '+' + seaCurrent.toFixed(1) + ' mm/년';
+            
+            // 북극 해빙
+            const iceBase = -13.2;
+            const iceCurrent = iceBase + (Math.random() - 0.5) * 0.5;
+            document.getElementById('arcticIce').textContent = iceCurrent.toFixed(1) + '%';
+            
+            // 서울 대기질
+            const aqiValues = [45, 78, 156, 201, 89, 134];
+            const aqiCurrent = aqiValues[Math.floor(Math.random() * aqiValues.length)];
+            document.getElementById('airQuality').textContent = aqiCurrent + ' AQI';
+            
+            let aqiStatus = '';
+            if (aqiCurrent <= 50) aqiStatus = '😊 좋음';
+            else if (aqiCurrent <= 100) aqiStatus = '😐 보통';
+            else if (aqiCurrent <= 150) aqiStatus = '😷 나쁨';
+            else aqiStatus = '🚨 매우 나쁨';
+            
+            document.getElementById('aqiStatus').textContent = aqiStatus;
+            
+            // 재생에너지 비율
+            const renewableBase = 28.7;
+            const renewableCurrent = renewableBase + (Math.random() - 0.3) * 0.5;
+            document.getElementById('renewableEnergy').textContent = renewableCurrent.toFixed(1) + '%';
+        }
+
+        // 부드러운 스크롤 효과
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 스크롤 시 헤더 효과
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // 통계 숫자 애니메이션
+        function animateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        const text = target.textContent;
+                        const number = parseFloat(text.replace(/[^\d.-]/g, ''));
+                        const suffix = text.replace(/[\d.-]/g, '');
+                        
+                        let current = 0;
+                        const increment = number / 50;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= number) {
+                                current = number;
+                                clearInterval(timer);
+                            }
+                            target.textContent = current.toFixed(1) + suffix;
+                        }, 30);
+                    }
+                });
+            });
+
+            statNumbers.forEach(stat => observer.observe(stat));
+        }
+
+        // 모달 외부 클릭 시 닫기
+        window.onclick = function(event) {
+            const loginModal = document.getElementById('loginModal');
+            const articleModal = document.getElementById('articleModal');
+            
+            if (event.target === loginModal) {
+                closeLoginModal();
+            }
+            if (event.target === articleModal) {
+                closeArticleModal();
+            }
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            animateStats();
+            updateRealtimeData();
+            
+            // 실시간 데이터 1초마다 업데이트
+            setInterval(updateRealtimeData, 1000);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9880eb1710835141',t:'MTc1OTM3MzcwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
