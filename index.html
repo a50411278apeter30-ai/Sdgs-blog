@@ -210,6 +210,31 @@
             color: #888;
         }
 
+        .blog-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .delete-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .delete-btn:hover {
+            background: #ff3742;
+            transform: scale(1.1);
+        }
+
         .read-more {
             color: #4CAF50;
             text-decoration: none;
@@ -899,11 +924,17 @@
                 writeBtn.style.display = 'inline-block';
                 userInfo.style.display = 'inline-block';
                 userInfo.textContent = `관리자 ${currentUser}님`;
+                
+                // 기존 글들에 삭제 버튼 추가
+                updateExistingPosts();
             } else {
                 loginBtn.style.display = 'inline-block';
                 logoutBtn.style.display = 'none';
                 writeBtn.style.display = 'none';
                 userInfo.style.display = 'none';
+                
+                // 로그아웃시 삭제 버튼 제거
+                document.querySelectorAll('.delete-btn').forEach(btn => btn.remove());
             }
         }
 
@@ -977,6 +1008,14 @@
             const postCard = document.createElement('article');
             postCard.className = 'blog-card';
             postCard.onclick = () => openArticle(post.id);
+            postCard.id = `card-${post.id}`;
+            
+            // 삭제 버튼은 로그인한 사용자만 볼 수 있음
+            const deleteButton = isLoggedIn ? `
+                <button class="delete-btn" onclick="event.stopPropagation(); deletePost('${post.id}')" title="글 삭제">
+                    🗑️
+                </button>
+            ` : '';
             
             postCard.innerHTML = `
                 <div class="blog-image">${categoryIcons[post.category] || '📝'}</div>
@@ -985,12 +1024,65 @@
                     <p class="blog-excerpt">${post.excerpt}</p>
                     <div class="blog-meta">
                         <span>${post.date} | ${post.category}</span>
-                        <a href="#" class="read-more" onclick="event.stopPropagation(); openArticle('${post.id}')">자세히 보기</a>
+                        <div class="blog-actions">
+                            <a href="#" class="read-more" onclick="event.stopPropagation(); openArticle('${post.id}')">자세히 보기</a>
+                            ${deleteButton}
+                        </div>
                     </div>
                 </div>
             `;
 
             blogGrid.insertBefore(postCard, blogGrid.firstChild);
+        }
+
+        // 글 삭제 함수
+        function deletePost(postId) {
+            if (!isLoggedIn) {
+                alert('로그인이 필요합니다.');
+                return;
+            }
+
+            if (confirm('정말로 이 글을 삭제하시겠습니까?')) {
+                // posts 배열에서 해당 글 제거
+                posts = posts.filter(post => post.id !== postId);
+                
+                // 로컬저장소 업데이트
+                saveToLocalStorage('posts', posts);
+                saveToLocalStorage('lastDeleteTime', new Date().toISOString());
+                
+                // DOM에서 해당 카드 제거
+                const cardElement = document.getElementById(`card-${postId}`);
+                if (cardElement) {
+                    cardElement.style.transform = 'scale(0)';
+                    cardElement.style.opacity = '0';
+                    setTimeout(() => {
+                        cardElement.remove();
+                    }, 300);
+                }
+                
+                alert('글이 삭제되었습니다.');
+            }
+        }
+
+        // 기존 글들에 삭제 버튼 추가하는 함수
+        function updateExistingPosts() {
+            posts.forEach(post => {
+                const cardElement = document.getElementById(`card-${post.id}`);
+                if (cardElement && isLoggedIn) {
+                    const blogActions = cardElement.querySelector('.blog-actions');
+                    if (blogActions && !blogActions.querySelector('.delete-btn')) {
+                        const deleteButton = document.createElement('button');
+                        deleteButton.className = 'delete-btn';
+                        deleteButton.innerHTML = '🗑️';
+                        deleteButton.title = '글 삭제';
+                        deleteButton.onclick = (e) => {
+                            e.stopPropagation();
+                            deletePost(post.id);
+                        };
+                        blogActions.appendChild(deleteButton);
+                    }
+                }
+            });
         }
 
         // 파일 업로드 관련 함수
@@ -1416,5 +1508,5 @@
             console.log('로컬저장소 사용 가능:', typeof(Storage) !== "undefined");
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98810494423feaa3',t:'MTc1OTM3NDc0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'988108fcf2945141',t:'MTc1OTM3NDkyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
